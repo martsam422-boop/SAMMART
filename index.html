@@ -1,4 +1,260 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="SAMMART - Shop Everything. Shop Smart."><title>SAMMART | Shop Smart</title><style>
-:root{--blue:#123c9b;--orange:#ff8a00;--ink:#172033;--muted:#687386;--bg:#f5f7fb}*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:var(--ink);background:var(--bg)}header{background:#fff;position:sticky;top:0;z-index:5;box-shadow:0 2px 12px #12204412}.wrap{max-width:1120px;margin:auto;padding:0 16px}.top{display:flex;align-items:center;gap:18px;padding:14px 0}.logo{font-size:27px;font-weight:900;color:var(--blue);letter-spacing:-1px}.logo span{color:var(--orange)}.search{flex:1;display:flex}.search input{width:100%;padding:12px;border:1px solid #dce2ee;border-radius:9px 0 0 9px;font-size:15px}.search button,.primary{border:0;background:var(--orange);color:#fff;font-weight:700;padding:12px 18px;border-radius:0 9px 9px 0;cursor:pointer}.cart{font-weight:700;white-space:nowrap}.hero{margin:22px auto;background:linear-gradient(110deg,#123c9b,#2867cf);color:white;border-radius:18px;padding:34px;display:flex;align-items:center;justify-content:space-between;gap:20px}.hero h1{font-size:clamp(28px,5vw,46px);margin:0 0 10px}.hero p{margin:0 0 18px;color:#e7edff}.hero .primary{border-radius:9px}.hero-art{font-size:76px}.section-head{display:flex;align-items:center;justify-content:space-between;margin:26px 0 14px}.cats{display:flex;gap:10px;overflow:auto;padding-bottom:6px}.chip{border:1px solid #dce2ee;background:white;padding:10px 15px;border-radius:30px;white-space:nowrap;cursor:pointer}.chip.active{background:var(--blue);color:#fff}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:white;border-radius:14px;padding:14px;box-shadow:0 4px 16px #1720330b}.photo{height:130px;background:#eef2fa;border-radius:10px;display:grid;place-items:center;font-size:54px}.card h3{font-size:15px;margin:12px 0 7px}.price{font-weight:800;color:var(--blue);font-size:18px}.old{color:#929bad;text-decoration:line-through;font-size:12px;margin-left:6px}.card button{width:100%;margin-top:10px;border:0;border-radius:8px;background:var(--blue);color:white;padding:10px;cursor:pointer}.empty{padding:30px;text-align:center;color:var(--muted);grid-column:1/-1}.foot{margin-top:38px;background:#101c38;color:#dce5ff;padding:28px 0}.foot small,.notice{color:var(--muted);font-size:13px}@media(max-width:760px){.top{flex-wrap:wrap;gap:10px}.logo{font-size:24px}.search{order:3;flex-basis:100%}.hero{padding:24px}.hero-art{font-size:52px}.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:380px){.grid{grid-template-columns:1fr}.hero-art{display:none}}
-</style></head><body><header><div class="wrap top"><div class="logo">SAM<span>MART</span></div><div class="search"><input id="search" placeholder="Search products..." aria-label="Search products"><button onclick="render()">Search</button></div><div class="cart">🛒 Cart: <b id="count">0</b></div></div></header><main class="wrap"><section class="hero"><div><h1>Shop Everything.<br>Shop Smart.</h1><p>Your everyday online shopping destination in India.</p><button class="primary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Explore Products</button></div><div class="hero-art">🛍️</div></section><div class="section-head"><h2>Shop by Category</h2></div><div class="cats" id="cats"></div><div class="section-head" id="products"><h2>Popular Products</h2><span id="result" class="notice"></span></div><div class="grid" id="grid"></div><p class="notice">Demo storefront: checkout and online payments are not enabled yet. Product prices and availability are sample data.</p></main><footer class="foot"><div class="wrap"><b>SAMMART</b><p>Shop Everything. Shop Smart.</p><small>India · Add your verified business contact before launch.</small></div></footer><script>
-const products=[{name:'Wireless Headphones',cat:'Electronics',price:1299,old:1999,icon:'🎧'},{name:'Smart Watch',cat:'Electronics',price:1799,old:2499,icon:'⌚'},{name:'Everyday Backpack',cat:'Fashion',price:899,old:1299,icon:'🎒'},{name:'Cotton T-Shirt',cat:'Fashion',price:499,old:799,icon:'👕'},{name:'Kitchen Storage Set',cat:'Home',price:699,old:999,icon:'🍱'},{name:'LED Desk Lamp',cat:'Home',price:599,old:899,icon:'💡'},{name:'Skincare Combo',cat:'Beauty',price:749,old:1099,icon:'🧴'},{name:'Sports Water Bottle',cat:'Sports',price:299,old:449,icon:'🥤'}];let category='All',cart=0;const cats=['All',...new Set(products.map(p=>p.cat))];document.getElementById('cats').innerHTML=cats.map(c=>`<button class="chip ${c==='All'?'active':''}" onclick="setCategory('${c}',this)">${c}</button>`).join('');function setCategory(c,el){category=c;document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));el.classList.add('active');render()}function add(){cart++;document.getElementById('count').textContent=cart}function render(){let q=document.getElementById('search').value.toLowerCase();let list=products.filter(p=>(category==='All'||p.cat===category)&&p.name.toLowerCase().includes(q));document.getElementById('result').textContent=`${list.length} items`;document.getElementById('grid').innerHTML=list.length?list.map(p=>`<article class="card"><div class="photo">${p.icon}</div><h3>${p.name}</h3><div><span class="price">₹${p.price.toLocaleString('en-IN')}</span><span class="old">₹${p.old.toLocaleString('en-IN')}</span></div><button onclick="add()">Add to Cart</button></article>`).join(''):'<div class="empty">No products found. Try another search.</div>'}document.getElementById('search').addEventListener('input',render);render();</script></body></html>
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SAMMART | Shop Smart</title>
+<style>
+:root{--blue:#123c9b;--orange:#ff8a00;--ink:#172033;--bg:#f5f7fb}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;color:var(--ink);background:var(--bg)}
+header{background:white;position:sticky;top:0;z-index:5;box-shadow:0 2px 12px #12204412}
+.wrap{max-width:1100px;margin:auto;padding:14px 16px}
+.top{display:flex;align-items:center;gap:15px;flex-wrap:wrap}
+.logo{font-size:26px;font-weight:900;color:var(--blue)}
+.logo span{color:var(--orange)}
+.search{display:flex;flex:1;min-width:180px}
+input,select{padding:12px;border:1px solid #dce2ee;border-radius:8px;font-size:15px;width:100%;margin:5px 0}
+.search button,.primary{background:var(--orange);color:white;border:0;padding:12px 18px;border-radius:8px;font-weight:bold}
+.cart{font-weight:bold;white-space:nowrap}
+.hero{margin:22px auto;background:linear-gradient(110deg,#123c9b,#2867cf);color:white;border-radius:16px;padding:35px}
+.hero h1{font-size:38px;margin:0 0 10px}
+.cats{display:flex;gap:9px;overflow:auto;margin:18px 0}
+.chip{border:1px solid #ddd;background:white;padding:10px 16px;border-radius:25px;white-space:nowrap}
+.chip.active{background:var(--blue);color:white}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.card,.panel{background:white;border-radius:13px;padding:14px;box-shadow:0 3px 14px #0000000d}
+.photo{height:130px;background:#eef2fa;border-radius:9px;display:grid;place-items:center;font-size:55px}
+.card h3{font-size:16px}
+.price{font-weight:bold;color:var(--blue);font-size:19px}
+button{cursor:pointer}
+.card button,.action{width:100%;margin-top:10px;padding:11px;border:0;border-radius:8px;background:var(--blue);color:white}
+.adminBtn{background:#172033;color:white;border:0;padding:10px 14px;border-radius:8px}
+.panel{margin:20px 0}
+.panel h2{margin-top:0}
+.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.adminProduct{padding:12px;border-bottom:1px solid #eee}
+.adminProduct button{padding:8px;margin:4px;border:0;border-radius:6px}
+.edit{background:#e9a000}.del{background:#d93636;color:white}
+.hidden{display:none}
+.notice{color:#687386;font-size:14px}
+footer{margin-top:35px;background:#101c38;color:white;padding:28px 16px}
+@media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:29px}}
+@media(max-width:390px){.grid{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap top">
+<div class="logo">SAM<span>MART</span></div>
+<div class="search">
+<input id="search" placeholder="Search products...">
+<button onclick="render()">Search</button>
+</div>
+<div class="cart">🛒 Cart: <b id="count">0</b></div>
+<button class="adminBtn" onclick="openAdmin()">Admin</button>
+</div>
+</header>
+<main class="wrap">
+<section class="hero">
+<h1>Shop Everything.<br>Shop Smart.</h1>
+<p>Your everyday online shopping destination in India.</p>
+<button class="primary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Explore Products</button>
+</section>
+<div id="adminPanel" class="panel hidden">
+<h2>🔐 SAMMART Admin Dashboard</h2>
+<div id="loginArea">
+<p>Admin Login</p>
+<input id="adminEmail" type="email" placeholder="Admin Email">
+<input id="adminPassword" type="password" placeholder="Password">
+<button class="primary" onclick="loginAdmin()">Login</button>
+</div>
+<div id="dashboard" class="hidden">
+<p id="adminStatus">Admin logged in</p>
+<button class="adminBtn" onclick="logoutAdmin()">Logout</button>
+<hr>
+<h3 id="formTitle">Add New Product</h3>
+<form id="productForm">
+<input id="productId" type="hidden">
+<div class="formgrid">
+<input id="pName" placeholder="Product Name" required>
+<select id="pCategory">
+<option>Electronics</option><option>Fashion</option>
+<option>Home</option><option>Beauty</option>
+<option>Sports</option><option>Accessories</option>
+</select>
+<input id="pPrice" type="number" min="0" placeholder="Price ₹" required>
+<input id="pOld" type="number" min="0" placeholder="Old Price ₹">
+<input id="pIcon" placeholder="Product Emoji" value="🛍️">
+</div>
+<button class="primary" type="submit">Save Product</button>
+<button type="button" onclick="cancelEdit()">Cancel Edit</button>
+</form>
+<h3>Manage Products</h3>
+<div id="manageList">Loading products...</div>
+</div>
+<p id="message" class="notice"></p>
+</div>
+<h2>Shop by Category</h2>
+<div class="cats" id="cats"></div>
+<h2 id="products">Popular Products</h2>
+<div class="grid" id="grid"></div>
+<p id="result" class="notice"></p>
+</main>
+<footer><div class="wrap"><h2>SAMMART</h2><p>Shop Everything. Shop Smart.</p><p>India | © 2026 SAMMART</p></div></footer>
+</body>
+</html>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,collection,addDoc,updateDoc,deleteDoc,doc,getDoc,onSnapshot,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey:"AIzaSyDrDEU3FUvpXOyME69HK6wyfte6QHk2Sdw",
+authDomain:"sammart-new-3e96e.firebaseapp.com",
+projectId:"sammart-new-3e96e",
+storageBucket:"sammart-new-3e96e.firebasestorage.app",
+messagingSenderId:"392428335174",
+appId:"1:392428335174:web:62e9a88301491a6dad1a47",
+measurementId:"G-TFZ8NNVVR7"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+let products=[],category="All",cart=0,isAdmin=false;
+
+function msg(t){document.getElementById("message").textContent=t;}
+function safe(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+window.openAdmin=()=>document.getElementById("adminPanel").classList.toggle("hidden");
+
+window.render=function(){
+const q=document.getElementById("search").value.toLowerCase();
+const list=products.filter(p=>(category==="All"||p.category===category)&&String(p.name||"").toLowerCase().includes(q));
+document.getElementById("result").textContent=list.length+" products";
+document.getElementById("grid").innerHTML=list.length?list.map(p=>`
+<article class="card">
+<div class="photo">${safe(p.icon||"🛍️")}</div>
+<h3>${safe(p.name)}</h3>
+<div class="price">₹${Number(p.price||0).toLocaleString("en-IN")}</div>
+${p.oldPrice?`<small><del>₹${Number(p.oldPrice).toLocaleString("en-IN")}</del></small>`:""}
+<button onclick="addToCart()">Add to Cart</button>
+</article>`).join(""):"<p>No products found.</p>";
+};
+
+window.addToCart=()=>{
+cart++;
+document.getElementById("count").textContent=cart;
+};
+
+function categories(){
+const names=["All","Electronics","Fashion","Home","Beauty","Sports","Accessories"];
+document.getElementById("cats").innerHTML=names.map(c=>`<button class="chip ${category===c?"active":""}" data-cat="${c}">${c}</button>`).join("");
+document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{
+category=b.dataset.cat;categories();render();
+});
+}
+
+window.loginAdmin=async()=>{
+const email=document.getElementById("adminEmail").value.trim();
+const password=document.getElementById("adminPassword").value;
+try{
+if(!email||!password){msg("Enter email and password.");return;}
+await signInWithEmailAndPassword(auth,email,password);
+msg("Checking admin permission...");
+}catch(e){msg("Login failed: "+e.message);}
+};
+
+window.logoutAdmin=async()=>{await signOut(auth);msg("Logged out.");};
+
+onAuthStateChanged(auth,async user=>{
+if(!user){
+isAdmin=false;
+document.getElementById("loginArea").classList.remove("hidden");
+document.getElementById("dashboard").classList.add("hidden");
+return;
+}
+try{
+const a=await getDoc(doc(db,"admins",user.uid));
+if(a.exists()&&a.data().role==="admin"){
+isAdmin=true;
+document.getElementById("loginArea").classList.add("hidden");
+document.getElementById("dashboard").classList.remove("hidden");
+msg("Admin login successful.");
+manage();
+}else{
+msg("Admin permission not found. Ask project owner to set up admin.");
+await signOut(auth);
+}
+}catch(e){msg("Admin check error: "+e.message);}
+});
+
+document.getElementById("productForm").addEventListener("submit",async e=>{
+e.preventDefault();
+if(!isAdmin){msg("Admin login required.");return;}
+const id=document.getElementById("productId").value;
+const data={
+name:document.getElementById("pName").value.trim(),
+category:document.getElementById("pCategory").value,
+price:Number(document.getElementById("pPrice").value),
+oldPrice:Number(document.getElementById("pOld").value)||0,
+icon:document.getElementById("pIcon").value.trim()||"🛍️",
+updatedAt:serverTimestamp()
+};
+try{
+if(id)await updateDoc(doc(db,"products",id),data);
+else await addDoc(collection(db,"products"),{...data,createdAt:serverTimestamp()});
+msg(id?"Product updated.":"Product added.");
+cancelEdit();
+}catch(e){msg("Save error: "+e.message);}
+});
+
+window.editProduct=id=>{
+const p=products.find(x=>x.id===id);
+if(!p)return;
+document.getElementById("productId").value=id;
+document.getElementById("pName").value=p.name||"";
+document.getElementById("pCategory").value=p.category||"Electronics";
+document.getElementById("pPrice").value=p.price||0;
+document.getElementById("pOld").value=p.oldPrice||"";
+document.getElementById("pIcon").value=p.icon||"🛍️";
+document.getElementById("formTitle").textContent="Edit Product";
+};
+
+window.cancelEdit=()=>{
+document.getElementById("productId").value="";
+document.getElementById("productForm").reset();
+document.getElementById("pIcon").value="🛍️";
+document.getElementById("formTitle").textContent="Add New Product";
+};
+
+window.deleteProduct=async id=>{
+if(!isAdmin||!confirm("Delete this product?"))return;
+try{await deleteDoc(doc(db,"products",id));msg("Product deleted.");}
+catch(e){msg("Delete error: "+e.message);}
+};
+
+function manage(){
+document.getElementById("manageList").innerHTML=products.length?products.map(p=>`
+<div class="adminProduct">
+<b>${safe(p.name)}</b> — ₹${Number(p.price||0)}
+<br><button class="edit" onclick="editProduct('${p.id}')">Edit</button>
+<button class="del" onclick="deleteProduct('${p.id}')">Delete</button>
+</div>`).join(""):"No products added yet.";
+}
+
+onSnapshot(collection(db,"products"),snapshot=>{
+products=snapshot.docs.map(d=>({id:d.id,...d.data()}));
+categories();render();
+if(isAdmin)manage();
+},e=>{msg("Firebase error: "+e.message);});
+
+document.getElementById("search").addEventListener("input",render);
+categories();
+render();
+</script>
+</body>
+</html>
